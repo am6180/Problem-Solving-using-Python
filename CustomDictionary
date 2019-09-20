@@ -1,0 +1,83 @@
+'''
+@author: Aditi Munjekar
+I have developed a data structure which is a dictionary
+with a custom size.
+This data structure keeps the provided number of elements
+at a time.
+If a elements is added after the dictionary is at it's full
+capacity then the first added element is removed from the
+custom dictionary.
+I have used deque to remove the least recently used element
+from the custom dictionary.
+The adding in the dictionary as well as deque takes O(1) time
+complexity.
+The removing from custom dictionary takes O(1) but that from
+deque takes O(n) time complexity.
+'''
+import collections
+
+class CustomDict:
+    slots = "items", "capacity", "last_added", "count_of_elements"
+
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.items = {}
+        self.last_added = collections.deque()
+        self.count_of_elements = 0
+
+    def add(self, element_key, value):
+        if element_key not in self.items:
+            print("Element with the given key is already present")
+            # call the different method when the event id is seen for the first time
+            return
+
+        self.items[element_key] = value
+        self.last_added.append(element_key)
+
+        if self.count_of_elements == self.capacity:
+            self.remove_lra()
+        else:
+            self.count_of_elements += 1
+
+    def remove_lra(self):
+        last = self.last_added.popleft()
+        # if keeping deque elements
+        # while (last not in self.items):
+        #     last = self.last_added.popleft()
+        del self.items[last]
+
+    def remove(self, element_key):
+        if element_key in self.items:
+            del self.items[element_key]
+            self.count_of_elements -= 1
+            self.last_added.remove(element_key)
+        else:
+            print("Key not present")
+
+    def __str__(self):
+        return str(self.items)
+
+
+if __name__ == "__main__":
+    #size of the dictionary
+    cd = CustomDict(5)
+    cd.add(1, "Hello")
+    cd.add(2, "I")
+    cd.add(3, "like")
+    cd.add(3, "like")
+    cd.add(4, "like")
+    cd.add(5, "chocolates")
+    cd.add(6, "chocolates")
+
+    # test removes
+    cd.remove(8)
+    cd.remove(7)
+    cd.remove(5)
+    cd.remove(4)
+    print(cd)
+    cd.add(1, "restarting")
+    cd.add(2, "the")
+    cd.add(3, "done!")
+    cd.remove(1)
+    cd.remove(2)
+    print(cd)
