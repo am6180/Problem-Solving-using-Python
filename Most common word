@@ -1,0 +1,34 @@
+'''
+@author: Aditi Anant Munjekar
+Time complexity: O(n^2)
+'''
+
+class Solution:
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        #convert in lower case
+        paragraph = paragraph.lower()
+        
+        #remove punctuations
+        dictionary = {}
+        punctuations = '''!?',;.'''
+        for word in paragraph:
+            if word in punctuations:
+                paragraph = paragraph.replace(word, " ") 
+        
+        #string of words
+        paragraph = paragraph.split()
+        
+        #loading the dictionary
+        for word in paragraph:
+            if word not in dictionary:
+                dictionary[word] = 1
+            else:
+                dictionary[word] += 1
+        
+        #sorting the dictionary in descending order
+        dictionary_sorted = sorted(dictionary, key=dictionary.get, reverse=True)
+        
+        #getting the most frequent word that is not banned
+        for word in dictionary_sorted:
+            if word not in banned:
+                return word
