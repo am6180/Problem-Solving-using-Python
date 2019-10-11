@@ -1,0 +1,14 @@
+def uniquepairsum(nums, target):
+    sums = set()
+    dictionary = {}
+    for i in range(len(nums)):
+        diff = target - nums[i]
+        if diff in dictionary:
+            sums.add(diff)
+            sums.add(nums[i])
+        dictionary[nums[i]] = i
+        
+    if len(sums) == 1:
+        return 1
+    else:
+        return len(sums)//2   
