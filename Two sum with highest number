@@ -1,0 +1,31 @@
+#Given a list of positive integers nums and an int target, return indices of the two numbers such that they add up to a target - 30
+#Conditions:
+
+#You will pick exactly 2 numbers.
+#You cannot pick the same element twice.
+#If you have muliple pairs, select the pair with the largest number.
+
+def pair(nums,target):
+    target = target - 30
+    pair = []
+    allPairs = []
+    if len(nums) == 0 or len(nums) == 1:
+        return 
+    if len(nums) == 2 and (nums[0]+nums[1] != target):
+        return
+    for i in range(0,len(nums)):
+        for j in range(i+1, len(nums)):
+            addition = nums[i]+nums[j]
+            if addition == target:
+                pair = [i,j]
+                allPairs.append(pair)
+    if len(allPairs)>1:
+        largest_pair = []
+        temp = 0
+        for p in allPairs:
+            if(nums[p[0]]>temp or nums[p[1]]>temp):
+                largest_pair = p
+                temp = max(nums[p[0]], nums[p[1]])
+        return largest_pair
+    else:
+        return allPairs[0]  
